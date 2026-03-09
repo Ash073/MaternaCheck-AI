@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MaternaCheck — Doctor Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/doctor.css">
+</head>
+<body>
+
+<!-- ── Background Orbs ── -->
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="orb orb4"></div>
+</div>
+
+<!-- ── Header ── -->
+<header>
+  <div class="logo">
+    <div class="logo-mark">🩺</div>
+    <div class="logo-words">
+      <h1>MaternaCheck</h1>
+      <p>Doctor Research Portal</p>
+    </div>
+  </div>
+  <div id="headerRight">
+    <a href="index.html" class="safe-tag">← Back to App</a>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════
+     LOGIN SECTION
+     ══════════════════════════════════════ -->
+<div id="loginSection" class="doctor-section">
+  <div class="doctor-login-wrap">
+    <div class="card">
+      <div class="card-eyebrow">🔐 Secure Access</div>
+      <div class="card-title">Doctor Portal Login</div>
+      <div class="card-sub">Access anonymized patient symptom data for research and analysis.</div>
+
+      <div class="form-group">
+        <label class="flabel">Username</label>
+        <input type="text" id="loginUser" class="doc-input" placeholder="Enter your username" autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label class="flabel">Password</label>
+        <input type="password" id="loginPass" class="doc-input" placeholder="Enter your password" autocomplete="current-password">
+      </div>
+
+      <div id="loginError" class="login-error" style="display:none"></div>
+
+      <button class="btn-next" onclick="doLogin()" style="width:100%;margin-top:16px">🔓 Sign In</button>
+
+      <div class="login-hint">
+        <strong>Demo Credentials:</strong><br>
+        Username: <code>doctor</code> &nbsp; Password: <code>doctor123</code>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     DASHBOARD SECTION
+     ══════════════════════════════════════ -->
+<div id="dashboardSection" class="doctor-section" style="display:none">
+
+  <!-- ── Welcome Bar ── -->
+  <div class="dash-welcome">
+    <div>
+      <div class="dash-greeting" id="dashGreeting">Welcome, Doctor</div>
+      <div class="dash-sub">Anonymized patient symptom data for research &amp; analysis</div>
+    </div>
+    <button class="btn-logout" onclick="doLogout()">Sign Out →</button>
+  </div>
+
+  <!-- ── Stat Cards ── -->
+  <div class="stat-grid">
+    <div class="stat-card stat-total">
+      <div class="stat-num" id="statTotal">0</div>
+      <div class="stat-label">Total Checks</div>
+    </div>
+    <div class="stat-card stat-normal">
+      <div class="stat-num" id="statNormal">0</div>
+      <div class="stat-label">Normal ✅</div>
+    </div>
+    <div class="stat-card stat-monitor">
+      <div class="stat-num" id="statMonitor">0</div>
+      <div class="stat-label">Monitor ⚠️</div>
+    </div>
+    <div class="stat-card stat-emergency">
+      <div class="stat-num" id="statEmergency">0</div>
+      <div class="stat-label">Emergency 🚨</div>
+    </div>
+    <div class="stat-card stat-avg">
+      <div class="stat-num" id="statAvg">0</div>
+      <div class="stat-label">Avg Risk Score</div>
+    </div>
+  </div>
+
+  <!-- ── Risk Distribution Bar ── -->
+  <div class="card dash-card">
+    <h3 class="dash-card-title">📊 Risk Level Distribution</h3>
+    <div class="risk-bar-wrap">
+      <div class="risk-bar">
+        <div class="risk-seg risk-seg-normal" id="barNormal" style="width:0%"></div>
+        <div class="risk-seg risk-seg-monitor" id="barMonitor" style="width:0%"></div>
+        <div class="risk-seg risk-seg-emergency" id="barEmergency" style="width:0%"></div>
+      </div>
+      <div class="risk-legend">
+        <span class="legend-dot dot-normal"></span> Normal
+        <span class="legend-dot dot-monitor"></span> Monitor
+        <span class="legend-dot dot-emergency"></span> Emergency
+      </div>
+    </div>
+    <div id="noDataMsg" class="no-data-msg" style="display:none">No submissions yet. Data will appear once patients complete assessments.</div>
+  </div>
+
+  <!-- ── Gestational Week Distribution ── -->
+  <div class="card dash-card">
+    <h3 class="dash-card-title">📅 Gestational Week Distribution</h3>
+    <div class="week-chart" id="weekChart"></div>
+  </div>
+
+  <!-- ── Cause Factors Pie Chart ── -->
+  <div class="card dash-card">
+    <h3 class="dash-card-title">🥧 Major Cause Factors</h3>
+    <p class="dash-card-sub">Hover over each slice to see the factor name and number of entries</p>
+    <div class="pie-wrap">
+      <div class="pie-canvas-box">
+        <canvas id="pieChart" width="340" height="340"></canvas>
+        <div id="pieTooltip" class="pie-tooltip"></div>
+      </div>
+      <div class="pie-legend" id="pieLegend"></div>
+    </div>
+    <div id="pieNoData" class="no-data-msg" style="display:none">No symptom data yet. Pie chart will appear once patients complete assessments.</div>
+  </div>
+
+  <!-- ── Symptom Frequency ── -->
+  <div class="dash-grid-2">
+    <div class="card dash-card">
+      <h3 class="dash-card-title">🩺 Key Symptom Frequency</h3>
+      <div id="symptomFreq"></div>
+    </div>
+    <div class="card dash-card">
+      <h3 class="dash-card-title">⚕️ Pre-existing Conditions &amp; Other Symptoms</h3>
+      <div id="conditionFreq"></div>
+    </div>
+  </div>
+
+  <!-- ── Recent Submissions Table ── -->
+  <div class="card dash-card">
+    <h3 class="dash-card-title">📋 Recent Submissions</h3>
+    <div class="table-wrap">
+      <table class="dash-table" id="recentTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Time</th>
+            <th>Week</th>
+            <th>Risk Level</th>
+            <th>Score</th>
+            <th>Flags</th>
+          </tr>
+        </thead>
+        <tbody id="recentBody">
+          <tr><td colspan="6" class="table-empty">No submissions yet</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── Export ── -->
+  <div class="dash-actions">
+    <button class="btn-export" onclick="exportCSV()">📥 Export Data as CSV</button>
+    <button class="btn-next" onclick="refreshDashboard()" style="flex:1">🔄 Refresh Data</button>
+  </div>
+
+</div>
+
+<script src="js/doctor.js"></script>
+</body>
+</html>

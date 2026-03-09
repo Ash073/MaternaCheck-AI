@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MaternaCheck — Your Pregnancy Wellness Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ── Animated Background Orbs ── -->
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="orb orb4"></div>
+</div>
+
+<!-- ── Header ── -->
+<header>
+  <div class="logo">
+    <div class="logo-mark">🌸</div>
+    <div class="logo-words">
+      <h1>MaternaCheck</h1>
+      <p>Pregnancy Wellness Guide</p>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <a href="doctor.html" style="text-decoration:none;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:600;color:#e57373;background:rgba(229,115,115,.1);padding:6px 14px;border-radius:20px">🩺 Doctor Portal</a>
+    <div class="safe-tag">🔒 Private &amp; Secure</div>
+  </div>
+</header>
+
+<!-- ── Hero ── -->
+<div class="hero" id="heroSection">
+  <div class="hero-pill">✨ Designed for Weeks 32–40</div>
+  <h2>You &amp; your baby<br>deserve <em>expert guidance</em></h2>
+  <p>Answer a few gentle questions about how you're feeling today. Our smart checker will give you a personalised, caring assessment in moments.</p>
+  <div class="trust-row">
+    <div class="trust-item"><span>🏥</span><span>Medically Informed Logic</span></div>
+    <div class="trust-item"><span>🔒</span><span>No Data Stored</span></div>
+    <div class="trust-item"><span>💝</span><span>Always Reassuring</span></div>
+  </div>
+</div>
+
+<!-- ── Progress Bar ── -->
+<div class="progress-wrap" id="progressWrap" style="display:none">
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+  <div class="step-dots" id="stepDots"></div>
+</div>
+
+<!-- ── Main Content ── -->
+<main>
+
+  <!-- ══ STEP 0 — Context ══ -->
+  <div class="step-panel active" id="step0">
+    <div class="tip-strip">
+      <span class="tip-icon">💡</span>
+      <span>This tool uses <strong>rule-based clinical logic</strong> to analyse symptom combinations. It <strong>does not replace your doctor</strong> it helps you understand when to seek care.</span>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">🌷 Step 1 of 6</div>
+      <div class="card-title">Tell us about your pregnancy</div>
+      <div class="card-sub">Let's start with the basics so we can personalise your assessment.</div>
+
+      <div class="flabel">Which week are you in? <span class="crit-tag">REQUIRED</span></div>
+      <div class="week-visual" id="weekGrid"></div>
+      <input type="hidden" id="gestWeek" value="">
+      <div style="font-size:12px;color:var(--ink-muted);margin-top:8px;margin-bottom:24px;">
+        Selected: <span id="weekDisplay" style="font-weight:700;color:var(--blush-deep)">Not selected</span>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="flabel" style="margin-bottom:12px">Is this your first pregnancy?</div>
+      <div class="yn-group">
+        <button class="yn-btn" onclick="setYN(this,'gravida','first')"><span class="yn-icon">🌟</span>Yes, my first</button>
+        <button class="yn-btn" onclick="setYN(this,'gravida','multi')"><span class="yn-icon">💝</span>I've been pregnant before</button>
+      </div>
+      <input type="hidden" id="gravida" value="">
+
+      <div class="divider"></div>
+
+      <div class="flabel" style="margin-bottom:12px">Any pre-existing conditions? (select all that apply)</div>
+      <div class="symptom-grid three" id="preGrid">
+        <div class="sym-card" onclick="toggleSym(this,'pre')" data-val="hypertension">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🫀</div>
+          <div class="sym-label">High Blood Pressure</div>
+        </div>
+        <div class="sym-card" onclick="toggleSym(this,'pre')" data-val="diabetes">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🍬</div>
+          <div class="sym-label">Gestational Diabetes</div>
+        </div>
+        <div class="sym-card" onclick="toggleSym(this,'pre')" data-val="twins">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">👶👶</div>
+          <div class="sym-label">Twins / Multiple</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-next" onclick="goStep(1)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ══ STEP 1 — Pain & Contractions ══ -->
+  <div class="step-panel" id="step1">
+    <div class="card">
+      <div class="card-eyebrow">💊 Step 2 of 6</div>
+      <div class="card-title">Pain &amp; Contractions</div>
+      <div class="card-sub">Tap your current pain level and tell us about any contractions.</div>
+
+      <div class="flabel">How much pain are you feeling right now?</div>
+      <div class="pain-scale" id="painScale">
+        <button class="pain-btn" data-v="0"  onclick="setPain(this)">0<small>None</small></button>
+        <button class="pain-btn" data-v="1"  onclick="setPain(this)">1</button>
+        <button class="pain-btn" data-v="2"  onclick="setPain(this)">2</button>
+        <button class="pain-btn" data-v="3"  onclick="setPain(this)">3<small>Mild</small></button>
+        <button class="pain-btn" data-v="4"  onclick="setPain(this)">4</button>
+        <button class="pain-btn" data-v="5"  onclick="setPain(this)">5</button>
+        <button class="pain-btn" data-v="6"  onclick="setPain(this)">6<small>Mod</small></button>
+        <button class="pain-btn" data-v="7"  onclick="setPain(this)">7</button>
+        <button class="pain-btn" data-v="8"  onclick="setPain(this)">8</button>
+        <button class="pain-btn" data-v="9"  onclick="setPain(this)">9</button>
+        <button class="pain-btn" data-v="10" onclick="setPain(this)">10<small>Worst</small></button>
+      </div>
+      <div class="pain-label"><span>😊 No pain</span><span>😣 Unbearable</span></div>
+      <input type="hidden" id="painLevel" value="0">
+
+      <div class="divider"></div>
+
+      <div class="flabel">Contraction Pattern <span class="crit-tag">KEY INDICATOR</span></div>
+      <div class="symptom-grid" id="contrGrid">
+        <div class="sym-card" onclick="setSingle(this,'contractions','none','')" data-val="none">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">😌</div>
+          <div class="sym-label">No contractions</div>
+          <div class="sym-desc">Feeling comfortable</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'contractions','irregular','active')" data-val="irregular">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🌊</div>
+          <div class="sym-label">Irregular / Sporadic</div>
+          <div class="sym-desc">Braxton Hicks-like</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'contractions','10min','active-warn')" data-val="10min">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">⏱</div>
+          <div class="sym-label">Every 10+ minutes</div>
+          <div class="sym-desc">Regular, less frequent</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'contractions','5min','active-warn')" data-val="5min">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">⚡</div>
+          <div class="sym-label">Every 5–10 minutes</div>
+          <div class="sym-desc">Frequent &amp; regular</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'contractions','sub5','active-crit')" data-val="sub5">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🚨</div>
+          <div class="sym-label">Every 5 min or less</div>
+          <div class="sym-desc">Very frequent – urgent</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'contractions','constant','active-crit')" data-val="constant">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">❗</div>
+          <div class="sym-label">Constant / No break</div>
+          <div class="sym-desc">Pain does not ease</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="flabel">Headache severity?</div>
+      <div class="pain-scale" id="headScale">
+        <button class="pain-btn" data-v="0"  onclick="setHead(this)">0<small>None</small></button>
+        <button class="pain-btn" data-v="1"  onclick="setHead(this)">1</button>
+        <button class="pain-btn" data-v="2"  onclick="setHead(this)">2</button>
+        <button class="pain-btn" data-v="3"  onclick="setHead(this)">3<small>Mild</small></button>
+        <button class="pain-btn" data-v="4"  onclick="setHead(this)">4</button>
+        <button class="pain-btn" data-v="5"  onclick="setHead(this)">5</button>
+        <button class="pain-btn" data-v="6"  onclick="setHead(this)">6<small>Mod</small></button>
+        <button class="pain-btn" data-v="7"  onclick="setHead(this)">7</button>
+        <button class="pain-btn" data-v="8"  onclick="setHead(this)">8</button>
+        <button class="pain-btn" data-v="9"  onclick="setHead(this)">9</button>
+        <button class="pain-btn" data-v="10" onclick="setHead(this)">10<small>Severe</small></button>
+      </div>
+      <input type="hidden" id="headache" value="0">
+    </div>
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goStep(0)">←</button>
+      <button class="btn-next" onclick="goStep(2)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ══ STEP 2 — Bleeding & Fluid ══ -->
+  <div class="step-panel" id="step2">
+    <div class="card">
+      <div class="card-eyebrow">🩸 Step 3 of 6 — Critical Section</div>
+      <div class="card-title">Bleeding &amp; Fluid Changes</div>
+      <div class="card-sub">These symptoms carry the most clinical weight. Please answer carefully.</div>
+
+      <div class="flabel">Vaginal Bleeding <span class="crit-tag">CRITICAL</span></div>
+      <div class="symptom-grid" id="bleedGrid">
+        <div class="sym-card" onclick="setSingle(this,'bleeding','none','')" data-val="none">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">✅</div>
+          <div class="sym-label">None at all</div>
+          <div class="sym-desc">No bleeding noticed</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'bleeding','spotting','active')" data-val="spotting">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🌸</div>
+          <div class="sym-label">Light spotting</div>
+          <div class="sym-desc">Pink or brown discharge</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'bleeding','light','active-warn')" data-val="light">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">⚠️</div>
+          <div class="sym-label">Light red bleeding</div>
+          <div class="sym-desc">Bright red, not heavy</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'bleeding','heavy','active-crit')" data-val="heavy">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🚨</div>
+          <div class="sym-label">Heavy bleeding</div>
+          <div class="sym-desc">Soaking a pad – urgent</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="flabel">Fluid / Water Breaking <span class="crit-tag">CRITICAL</span></div>
+      <div class="symptom-grid" id="fluidGrid">
+        <div class="sym-card" onclick="setSingle(this,'fluid','none','')" data-val="none">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">✅</div>
+          <div class="sym-label">No unusual fluid</div>
+          <div class="sym-desc">Normal discharge</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'fluid','increased','active')" data-val="increased">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">💧</div>
+          <div class="sym-label">More discharge</div>
+          <div class="sym-desc">Increased but normal</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'fluid','watery','active-warn')" data-val="watery">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🫗</div>
+          <div class="sym-label">Watery trickle</div>
+          <div class="sym-desc">Possible slow leak</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'fluid','gush','active-crit')" data-val="gush">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🌊</div>
+          <div class="sym-label">Sudden gush</div>
+          <div class="sym-desc">Waters may have broken</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goStep(1)">←</button>
+      <button class="btn-next" onclick="goStep(3)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ══ STEP 3 — Baby's Movements ══ -->
+  <div class="step-panel" id="step3">
+    <div class="card">
+      <div class="card-eyebrow">👶 Step 4 of 6</div>
+      <div class="card-title">Baby's Movements</div>
+      <div class="card-sub">Your baby's movement is one of the most important wellbeing signs. Tap the baby below to count kicks!</div>
+
+      <div class="kick-counter">
+        <div style="font-size:14px;font-weight:700;color:var(--ink-soft);margin-bottom:8px">Tap to count kicks in the last 2 hours</div>
+        <div class="kick-baby" id="kickBaby" onclick="addKick()">👶</div>
+        <div class="kick-count-num" id="kickNum">0</div>
+        <div class="kick-goal">kicks (goal: 10 in 2 hours)</div>
+        <div class="kick-bar-track">
+          <div class="kick-bar-fill" id="kickBar" style="width:0%"></div>
+        </div>
+        <div style="font-size:12px;color:var(--ink-muted);margin-top:4px" id="kickMsg">Start tapping every time you feel baby move 💝</div>
+      </div>
+      <input type="hidden" id="kickCount" value="0">
+
+      <div class="divider"></div>
+
+      <div class="flabel">Overall baby movement today compared to usual? <span class="crit-tag">KEY</span></div>
+      <div class="symptom-grid" id="fetalGrid">
+        <div class="sym-card" onclick="setSingle(this,'fetalMovement','normal','')" data-val="normal">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">💚</div>
+          <div class="sym-label">Normal movement</div>
+          <div class="sym-desc">About the same as usual</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'fetalMovement','increased','active')" data-val="increased">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🌟</div>
+          <div class="sym-label">More active</div>
+          <div class="sym-desc">Moving more than usual</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'fetalMovement','reduced','active-warn')" data-val="reduced">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">⚠️</div>
+          <div class="sym-label">Less active</div>
+          <div class="sym-desc">Fewer kicks than usual</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'fetalMovement','absent','active-crit')" data-val="absent">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🚨</div>
+          <div class="sym-label">No movement</div>
+          <div class="sym-desc">None felt in 12+ hours</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goStep(2)">←</button>
+      <button class="btn-next" onclick="goStep(4)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ══ STEP 4 — Swelling & Pressure ══ -->
+  <div class="step-panel" id="step4">
+    <div class="card">
+      <div class="card-eyebrow">💧 Step 5 of 6</div>
+      <div class="card-title">Swelling &amp; Pressure Signs</div>
+      <div class="card-sub">These symptoms together can indicate preeclampsia — important to detect early.</div>
+
+      <div class="flabel">Swelling Level</div>
+      <div class="symptom-grid" id="swellGrid">
+        <div class="sym-card" onclick="setSingle(this,'swelling','none','')" data-val="none">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">✅</div>
+          <div class="sym-label">No swelling</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'swelling','mild','active')" data-val="mild">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🦶</div>
+          <div class="sym-label">Mild ankle swelling</div>
+          <div class="sym-desc">Common &amp; normal</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'swelling','moderate','active-warn')" data-val="moderate">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🤲</div>
+          <div class="sym-label">Face or hand swelling</div>
+          <div class="sym-desc">Not just ankles</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'swelling','severe','active-crit')" data-val="severe">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">😰</div>
+          <div class="sym-label">Severe sudden swelling</div>
+          <div class="sym-desc">Whole body, face, hands</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="flabel">Vision Changes <span class="crit-tag">CRITICAL</span></div>
+      <div class="symptom-grid" id="visionGrid">
+        <div class="sym-card" onclick="setSingle(this,'vision','none','')" data-val="none">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">👁</div>
+          <div class="sym-label">Vision normal</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'vision','mild','active')" data-val="mild">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">✨</div>
+          <div class="sym-label">Occasional floaters</div>
+          <div class="sym-desc">Spots now and then</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'vision','blurred','active-warn')" data-val="blurred">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">😵</div>
+          <div class="sym-label">Blurred / double</div>
+          <div class="sym-desc">Persistent blurring</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'vision','flashing','active-crit')" data-val="flashing">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">⚡</div>
+          <div class="sym-label">Flashing lights</div>
+          <div class="sym-desc">Or significant visual loss</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="flabel" style="margin-bottom:12px">Upper abdominal or shoulder pain?</div>
+      <div class="yn-group">
+        <button class="yn-btn" id="upYes" onclick="setYNField('upperPain','yes','upYes','upNo')"><span class="yn-icon">⚡</span>Yes, I have it</button>
+        <button class="yn-btn yes" id="upNo" onclick="setYNField('upperPain','no','upYes','upNo')"><span class="yn-icon">✅</span>No, I'm fine</button>
+      </div>
+      <input type="hidden" id="upperPain" value="no">
+
+      <div class="divider"></div>
+
+      <div class="flabel" style="margin-bottom:12px">Breathing difficulty?</div>
+      <div class="symptom-grid" id="breathGrid">
+        <div class="sym-card" onclick="setSingle(this,'breathing','none','')" data-val="none">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">😌</div>
+          <div class="sym-label">Breathing fine</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'breathing','mild','active')" data-val="mild">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">😮‍💨</div>
+          <div class="sym-label">Mildly short of breath</div>
+          <div class="sym-desc">Common in late pregnancy</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'breathing','moderate','active-warn')" data-val="moderate">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">😤</div>
+          <div class="sym-label">Affects walking</div>
+          <div class="sym-desc">Moderate difficulty</div>
+        </div>
+        <div class="sym-card" onclick="setSingle(this,'breathing','severe','active-crit')" data-val="severe">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">😰</div>
+          <div class="sym-label">Severe at rest</div>
+          <div class="sym-desc">Laboured breathing</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goStep(3)">←</button>
+      <button class="btn-next" onclick="goStep(5)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ══ STEP 5 — Other Symptoms ══ -->
+  <div class="step-panel" id="step5">
+    <div class="card">
+      <div class="card-eyebrow">🌡 Step 6 of 6 — Final Step</div>
+      <div class="card-title">Any other symptoms?</div>
+      <div class="card-sub">Tap everything that applies to you today. You're almost done!</div>
+
+      <div class="symptom-grid three" id="otherGrid">
+        <div class="sym-card" onclick="toggleSym(this,'other')" data-val="fever">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🌡</div>
+          <div class="sym-label">Fever / Chills</div>
+        </div>
+        <div class="sym-card" onclick="toggleSym(this,'other')" data-val="burning">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🔥</div>
+          <div class="sym-label">Burning urination</div>
+        </div>
+        <div class="sym-card" onclick="toggleSym(this,'other')" data-val="dizziness">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">😵</div>
+          <div class="sym-label">Dizziness / Fainting</div>
+        </div>
+        <div class="sym-card" onclick="toggleSym(this,'other')" data-val="pelvicPressure">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">⬇️</div>
+          <div class="sym-label">Pelvic Pressure</div>
+        </div>
+        <div class="sym-card" onclick="toggleSym(this,'other')" data-val="backPain">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🔙</div>
+          <div class="sym-label">Severe Back Pain</div>
+        </div>
+        <div class="sym-card" onclick="toggleSym(this,'other')" data-val="nausea">
+          <div class="check-badge">✓</div>
+          <div class="sym-icon">🤢</div>
+          <div class="sym-label">New Nausea / Vomiting</div>
+        </div>
+      </div>
+
+      <div class="wellness-tips">
+        <strong>💝 A gentle reminder</strong>
+        You're doing wonderfully by paying attention to your body. Whatever the result, remember: your instincts as a mother are powerful. If something feels wrong, trust yourself and seek help.
+      </div>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-back" onclick="goStep(4)">←</button>
+      <button class="btn-analyze" onclick="analyzeSymptoms()">🌸 Get My Assessment</button>
+    </div>
+  </div>
+
+  <!-- ══ RESULTS ══ -->
+  <div id="results">
+    <div id="resultHero" class="result-hero"></div>
+
+    <div class="meter-card">
+      <div class="meter-header">
+        <div class="meter-label">Overall Risk Score</div>
+        <div class="meter-pct" id="meterPct">—</div>
+      </div>
+      <div class="meter-track">
+        <div class="meter-fill" id="meterFill"></div>
+      </div>
+      <div class="meter-zones">
+        <div class="zone z1" style="flex:2">NORMAL</div>
+        <div class="zone z2" style="flex:2">MONITOR</div>
+        <div class="zone z3" style="flex:1">EMERGENCY</div>
+      </div>
+    </div>
+
+    <div id="emergencyBox"></div>
+
+    <!-- ── AI Advice Card ── -->
+    <div class="trail-card" id="aiAdviceCard" style="display:none">
+      <h3>🤖 AI-Powered Advice</h3>
+      <div id="aiAdviceContent" style="font-size:14px;color:var(--ink-soft);line-height:1.7;"></div>
+    </div>
+
+    <div class="trail-card">
+      <h3>🧠 How we assessed you</h3>
+      <div id="trailContent"></div>
+    </div>
+
+    <div class="guidance-card">
+      <h3>📋 Your personalised next steps</h3>
+      <div id="guidanceContent"></div>
+    </div>
+
+    <div class="tip-strip">
+      <span class="tip-icon">💡</span>
+      <span>Symptoms can change quickly. Re-check any time. <strong>When in doubt, always call your midwife or doctor.</strong></span>
+    </div>
+
+    <button class="btn-reset" onclick="resetAll()">← Check Again</button>
+    <div style="text-align:center;font-size:12px;color:var(--ink-muted);margin-top:12px;padding-bottom:24px">
+      This tool provides guidance only and does not constitute medical diagnosis.
+    </div>
+  </div>
+
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "materna-check",
+  "version": "1.0.0",
+  "description": "MaternaCheck — AI-Based Pregnancy Symptom Checker",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js"
+  },
+  "keywords": [
+    "pregnancy",
+    "health",
+    "symptom-checker",
+    "ai",
+    "hackathon"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.98.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
+    "express": "^4.21.0"
+  }
+}
