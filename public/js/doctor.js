@@ -1,6 +1,6 @@
 /* ── Doctor Portal JS ── */
 
-const API = window.location.origin + '/api/doctor';
+const API = 'https://materna-check-ai-4mmz.vercel.app/api/doctor';
 let token = sessionStorage.getItem('doc_token');
 let allSubmissions = [];
 

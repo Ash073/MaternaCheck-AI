@@ -27,8 +27,8 @@ let currentStep = 0;
 
 const STEP_LABELS = ['Context', 'Pain', 'Bleeding', 'Baby', 'Swelling', 'Other'];
 
-// Backend API base URL (same origin when served via Express)
-const API_BASE = window.location.origin;
+// Backend API base URL
+const API_BASE = 'https://materna-check-ai-4mmz.vercel.app';
 
 /* ── Initialisation ── */
 window.onload = () => {
