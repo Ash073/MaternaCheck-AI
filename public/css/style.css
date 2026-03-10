@@ -433,16 +433,127 @@ main { max-width: 780px; margin: 0 auto; padding: 0 20px 100px; position: relati
 .flabel .crit-tag { font-size: 10px; font-weight: 800; background: var(--red-pale); color: var(--red-soft); padding: 2px 7px; border-radius: 4px; letter-spacing: 0.05em; }
 
 /* ── Mobile Responsive ── */
-@media (max-width: 600px) {
+
+/* Tablet */
+@media (max-width: 768px) {
   header { padding: 12px 16px; }
-  .card { padding: 22px 18px; }
-  .hero { padding: 40px 16px 24px; }
-  .symptom-grid { grid-template-columns: 1fr 1fr; }
+  .hero { padding: 48px 20px 32px; }
+  .hero h2 { font-size: 28px; }
+  .hero p { font-size: 14px; }
+  .trust-row { gap: 12px; }
+  .card { padding: 24px 20px; }
+  .card-title { font-size: 20px; }
+  main { padding: 0 14px 80px; }
+  .progress-wrap { padding: 0 16px; }
   .symptom-grid.three { grid-template-columns: 1fr 1fr; }
   .week-visual { grid-template-columns: repeat(5, 1fr); }
-  .pain-scale { gap: 3px; }
-  .pain-btn { border-radius: 8px; }
-  main { padding: 0 12px 80px; }
-  .result-title { font-size: 24px; }
-  .trail-card, .guidance-card { padding: 20px 18px; }
+  .result-hero { padding: 30px 24px; }
+  .result-title { font-size: 26px; }
+  .result-msg { font-size: 14px; }
+  .trail-card, .guidance-card { padding: 22px 20px; }
+  .meter-card { padding: 20px; }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  header { padding: 10px 12px; gap: 8px; }
+  .logo-mark { width: 38px; height: 38px; font-size: 18px; border-radius: 12px; }
+  .logo-words h1 { font-size: 18px; }
+  .logo-words p { font-size: 9px; }
+  .logo { gap: 10px; }
+  .safe-tag { font-size: 9px; padding: 5px 10px; }
+  .header-right-links { gap: 6px !important; }
+  .header-right-links a { font-size: .72rem !important; padding: 4px 10px !important; }
+
+  .hero { padding: 32px 14px 20px; }
+  .hero h2 { font-size: 24px; }
+  .hero p { font-size: 13px; margin-bottom: 20px; }
+  .hero-pill { font-size: 10px; padding: 6px 14px; }
+  .trust-row { flex-direction: column; gap: 8px; }
+  .trust-item { font-size: 11px; }
+
+  .card { padding: 18px 14px; border-radius: 18px; }
+  .card-title { font-size: 18px; }
+  .card-sub { font-size: 13px; margin-bottom: 18px; }
+  .card-eyebrow { font-size: 10px; }
+
+  main { padding: 0 10px 80px; }
+  .progress-wrap { padding: 0 10px; margin-bottom: 20px; }
+  .step-dot-label { font-size: 8px; }
+  .step-dot-circle { width: 24px; height: 24px; font-size: 11px; }
+
+  .week-visual { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .week-btn { font-size: 12px; border-radius: 10px; }
+
+  .symptom-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .symptom-grid.three { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .sym-card { padding: 12px 8px; gap: 6px; border-radius: 12px; }
+  .sym-card .sym-icon { font-size: 24px; }
+  .sym-card .sym-label { font-size: 11px; }
+  .sym-card .sym-desc { font-size: 10px; }
+
+  .pain-scale { gap: 3px; flex-wrap: wrap; justify-content: center; }
+  .pain-btn { border-radius: 8px; min-width: 36px; min-height: 36px; font-size: 12px; }
+  .pain-label { font-size: 10px; }
+
+  .yn-group { grid-template-columns: 1fr; gap: 8px; }
+  .yn-btn { padding: 14px; font-size: 14px; flex-direction: row; gap: 10px; }
+  .yn-btn .yn-icon { font-size: 22px; }
+
+  .kick-counter { padding: 18px 14px; }
+  .kick-baby { font-size: 48px; }
+  .kick-count-num { font-size: 36px; }
+
+  .nav-btns { gap: 8px; margin-top: 20px; }
+  .btn-next { padding: 14px; font-size: 14px; border-radius: 30px; }
+  .btn-back { width: 44px; height: 44px; font-size: 16px; }
+  .btn-analyze { padding: 14px; font-size: 15px; }
+
+  .result-hero { padding: 28px 18px; border-radius: 22px; }
+  .result-emoji { font-size: 56px; }
+  .result-title { font-size: 22px; }
+  .result-msg { font-size: 13px; }
+
+  .meter-card { padding: 18px 14px; }
+  .meter-pct { font-size: 22px; }
+  .meter-label { font-size: 12px; }
+
+  .trail-card, .guidance-card { padding: 18px 14px; border-radius: 18px; }
+  .trail-card h3, .guidance-card h3 { font-size: 17px; }
+  .trail-item { gap: 10px; padding: 10px 0; }
+  .t-icon { width: 30px; height: 30px; font-size: 13px; }
+  .t-body strong { font-size: 13px; }
+  .t-body span { font-size: 12px; }
+
+  .emergency-card { padding: 20px 16px; border-radius: 18px; }
+  .emergency-card h3 { font-size: 17px; }
+  .emergency-card ul li { font-size: 13px; }
+  .hotline-box { padding: 12px 14px; font-size: 14px; border-radius: 12px; }
+
+  .step-item { gap: 10px; }
+  .step-num { width: 28px; height: 28px; font-size: 12px; }
+  .step-text { font-size: 13px; }
+
+  .tip-strip { padding: 12px 14px; font-size: 12px; gap: 8px; border-radius: 12px; }
+  .tip-strip .tip-icon { font-size: 18px; }
+
+  .btn-reset { padding: 14px; font-size: 14px; border-radius: 30px; }
+  .wellness-tips { padding: 12px 14px; font-size: 12px; border-radius: 12px; }
+  .flabel { font-size: 12px; }
+
+  .zone { font-size: 8px; }
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+  .hero h2 { font-size: 20px; }
+  .card { padding: 14px 10px; }
+  .card-title { font-size: 16px; }
+  .week-visual { grid-template-columns: repeat(3, 1fr); }
+  .pain-scale { gap: 2px; }
+  .pain-btn { min-width: 28px; min-height: 28px; font-size: 11px; }
+  .symptom-grid, .symptom-grid.three { grid-template-columns: 1fr; }
+  .result-emoji { font-size: 44px; }
+  .result-title { font-size: 18px; }
+  .meter-pct { font-size: 20px; }
 }

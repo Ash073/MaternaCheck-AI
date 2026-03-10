@@ -28,5 +28,14 @@ app.use(express.json());
 app.use('/api', checkRoutes);
 app.use('/api/doctor', doctorRoutes);
 
-// Export for Vercel
-module.exports = app;
+// Export a raw handler that sets CORS headers BEFORE Express runs
+// This ensures headers are present even if Express crashes
+module.exports = (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  return app(req, res);
+};

@@ -1,5 +1,6 @@
 /* ============================================================
    MaternaCheck — Doctor Authentication & Dashboard Routes
+   Stateless auth using HMAC-signed tokens (works on serverless)
    ============================================================ */
 
 const express = require('express');
@@ -8,21 +9,30 @@ const router = express.Router();
 const { getStats, getSubmissions } = require('../logic/store');
 
 // In-memory doctor accounts (hackathon-level, no DB)
-// In production, use a proper database + bcrypt
 const DOCTORS = [
   { id: 1, username: 'doctor', password: hashPassword('doctor123'), name: 'Dr. Admin' },
   { id: 2, username: 'research', password: hashPassword('research123'), name: 'Dr. Research' }
 ];
 
-// Active sessions (token -> doctor)
-const sessions = new Map();
+const TOKEN_SECRET = process.env.TOKEN_SECRET || 'materna-check-secret-key-2024';
 
 function hashPassword(pw) {
   return crypto.createHash('sha256').update(pw).digest('hex');
 }
 
-function generateToken() {
-  return crypto.randomBytes(32).toString('hex');
+function createToken(doctor) {
+  const payload = Buffer.from(JSON.stringify({ id: doctor.id, name: doctor.name })).toString('base64');
+  const sig = crypto.createHmac('sha256', TOKEN_SECRET).update(payload).digest('hex');
+  return payload + '.' + sig;
+}
+
+function verifyToken(token) {
+  const parts = token.split('.');
+  if (parts.length !== 2) return null;
+  const [payload, sig] = parts;
+  const expected = crypto.createHmac('sha256', TOKEN_SECRET).update(payload).digest('hex');
+  if (!crypto.timingSafeEqual(Buffer.from(sig, 'hex'), Buffer.from(expected, 'hex'))) return null;
+  try { return JSON.parse(Buffer.from(payload, 'base64').toString()); } catch { return null; }
 }
 
 // Auth middleware
@@ -31,8 +41,7 @@ function requireAuth(req, res, next) {
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Authentication required. Please log in.' });
   }
-  const token = authHeader.slice(7);
-  const doctor = sessions.get(token);
+  const doctor = verifyToken(authHeader.slice(7));
   if (!doctor) {
     return res.status(401).json({ error: 'Invalid or expired session. Please log in again.' });
   }
@@ -59,8 +68,7 @@ router.post('/login', (req, res) => {
     return res.status(401).json({ error: 'Invalid username or password.' });
   }
 
-  const token = generateToken();
-  sessions.set(token, { id: doctor.id, name: doctor.name });
+  const token = createToken(doctor);
 
   res.json({
     token,
@@ -72,8 +80,6 @@ router.post('/login', (req, res) => {
  * POST /api/doctor/logout
  */
 router.post('/logout', requireAuth, (req, res) => {
-  const token = req.headers.authorization.slice(7);
-  sessions.delete(token);
   res.json({ message: 'Logged out successfully.' });
 });
 
@@ -87,7 +93,6 @@ router.get('/me', requireAuth, (req, res) => {
 
 /**
  * GET /api/doctor/stats
- * Returns aggregated statistics for the dashboard
  */
 router.get('/stats', requireAuth, async (req, res) => {
   const stats = await getStats();
@@ -96,11 +101,9 @@ router.get('/stats', requireAuth, async (req, res) => {
 
 /**
  * GET /api/doctor/submissions
- * Returns all raw submissions for research
  */
 router.get('/submissions', requireAuth, async (req, res) => {
   const all = await getSubmissions();
-  // Return newest first, wrapped in { submissions: [...] }
   res.json({ submissions: all.slice().reverse() });
 });
 
