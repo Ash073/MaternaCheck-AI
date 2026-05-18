@@ -240,6 +240,7 @@ Animations
 Floating background orbs
 Smooth step transitions
 Result pop-in animations
+
 🔒 Privacy
 
 MaternaCheck:
