@@ -42,6 +42,7 @@ Vision disturbances
 Upper abdominal pain
 Breathing difficulty
 Previous pregnancy conditions
+
 ⚡ Risk Classification Engine
 
 Three-tier severity system:
@@ -68,6 +69,7 @@ Includes:
 Animated baby emoji
 Fetal movement tracking
 Kick count input system
+
 🤖 Optional Gemini AI Guidance
 
 Integrates with the Google Gemini API to provide:
@@ -85,6 +87,7 @@ Even without a backend server:
 The frontend still works
 Risk analysis runs locally
 No internet connection required
+
 📱 Fully Responsive UI
 
 Optimized for:
@@ -104,6 +107,7 @@ Frontend	HTML5, CSS3, Vanilla JavaScript
 Backend	Node.js, Express.js
 AI Integration	Google Gemini API
 Data Storage	None (Stateless Architecture)
+
 📂 Project Structure
 materna-check/
 │
@@ -143,6 +147,7 @@ Download Node.js here:
 Node.js Official Website
 
 ⚙️ Installation
+
 1️⃣ Clone the Repository
 git clone https://github.com/your-username/materna-check.git
 cd materna-check
@@ -154,6 +159,7 @@ npm start
 The app will run at:
 
 http://localhost:3000
+
 🤖 Enable Gemini AI (Optional)
 
 To enable AI-generated advice:
@@ -219,6 +225,7 @@ Example Response
   "aiAdvice": "Your symptoms at week 36 look reassuring..."
 }
 📊 API Response Fields
+
 Field	Type	Description
 riskLevel	string	normal / monitor / emergency
 score	number	Risk score from 0–100
