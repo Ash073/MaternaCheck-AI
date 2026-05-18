@@ -1,4 +1,4 @@
-🌸 MaternaCheck — AI-Based Pregnancy Symptom Checker
+🌸 MaternaCheck - AI-Based Pregnancy Symptom Checker
 
 An AI-powered late-pregnancy symptom checker designed for gestational weeks 32–40.
 Built to help expectant mothers understand symptom severity and identify when medical attention may be needed.
