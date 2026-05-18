@@ -276,7 +276,9 @@ Maternal health awareness
 Explainable AI support
 Offline-first usability
 Lightweight deployment
+
 📌 Future Improvements
+
 User authentication
 Pregnancy history tracking
 Multi-language support
@@ -284,6 +286,7 @@ Voice-assisted assessments
 Real-time hospital recommendations
 Doctor dashboard integration
 Wearable device connectivity
+
 👨‍💻 Author
 
 Developed with ❤️ to support safer maternal healthcare experiences through accessible AI-powered technology.
