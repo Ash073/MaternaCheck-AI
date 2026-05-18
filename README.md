@@ -128,7 +128,9 @@ materna-check/
 │
 ├── package.json
 └── README.md
+
 🚀 Getting Started
+
 Prerequisites
 
 Install the following before running the project:
@@ -249,6 +251,7 @@ Does not use a database
 Stores no user information
 Runs entirely in memory
 Does not track or retain medical data
+
 ⚠️ Medical Disclaimer
 
 MaternaCheck is an educational and informational support tool only.
